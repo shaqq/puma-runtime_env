@@ -7,7 +7,7 @@ Puma plugin to update ENV vars at runtime.
 This gem on its own won't do much. You'll need an adapter to read your ENV vars from a source:
 
 - [From k8s mounted secrets](https://github.com/shaqq/puma-runtime_env-k8s)
-- -~* Your awesome adapter here *~-
+- ~ * Your awesome adapter here * ~
 
 ## Installation
 
