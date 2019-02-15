@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["shaker"]
   spec.email         = ["shakerislam@gmail.com"]
 
-  spec.summary       = %q{Write a short summary, because RubyGems requires one.}
+  spec.summary       = %q{Puma plugin to update ENV vars at runtime}
   spec.homepage      = "https://github.com/shaqq/puma-runtime_env"
-  spec.license       = "Apache"
+  spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
