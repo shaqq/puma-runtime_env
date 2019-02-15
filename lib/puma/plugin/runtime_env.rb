@@ -5,12 +5,10 @@ require "puma/plugin"
 # Graciously, from https://github.com/rails/rails/blob/94b5cd3a20edadd6f6b8cf0bdf1a4d4919df86cb/activesupport/lib/active_support/inflector/methods.rb#L69
 def camelize(term, uppercase_first_letter = true)
   string = term.to_s
-  if uppercase_first_letter
-    string = string.sub(/^[a-z\d]*/) { |match| inflections.acronyms[match] || match.capitalize }
-  else
-    string = string.sub(inflections.acronyms_camelize_regex) { |match| match.downcase }
-  end
-  string.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{inflections.acronyms[$2] || $2.capitalize}" }
+
+  string = string.sub(/^[a-z\d]*/) { |match| match.capitalize }
+
+  string.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
   string.gsub!("/".freeze, "::".freeze)
   string
 end
@@ -27,8 +25,8 @@ Puma::Plugin.create do
       return
     end
 
-    adapter = "Puma::RuntimeEnv::#{camelize(adapter_name)}".new
-    poll_interval = Integer(ENV["PUMA_RUNTIME_ENV_INTERVAL"]) rescue 5
+    adapter = Puma::RuntimeEnv.const_get("#{camelize(adapter_name)}").new
+    poll_interval = Integer(ENV["PUMA_RUNTIME_ENV_INTERVAL"]) rescue 10
 
     restricted_envs = ["PUMA_RUNTIME_ENV"]
     other_restricted_envs = ENV.fetch("PUMA_RUNTIME_ENV_RESTRICTED", [])
